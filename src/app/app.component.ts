@@ -8,18 +8,13 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   title = 'task-list';
-  // task=['hohoo'];
-  // completed=['hohoo'];
-  // inprogress=['hohoo'];
   btntxt="Add Task"
   task: any =[];
   taskForm: any;
   constructor(private fb: FormBuilder) { }
   ngOnInit(): void {
     this.initForm();
-    // this.task =[{name:"yaaayy",status:"new",description:"some task"},
-    //   {name:"progress",status:"inprogress",description:"some task"},
-    //   {name:"comp",status:"completed",description:"some task"}]
+    this.loadTaskFromSessionStorage();
   }
   initForm(): void {
     this.taskForm = this.fb.group({
@@ -33,13 +28,25 @@ export class AppComponent implements OnInit {
     if (this.taskForm.valid) {
       const formData = this.taskForm.value;
       this.task.push(formData);
-      // Here you can handle the form submission, such as sending the data to your backend
-      console.log(formData);
-      console.log(this.task);
    this.taskForm.reset();
+   this.saveTaskToSessionStorage();
     } else {
       this.taskForm.markAllAsTouched();
     
+    }
+  }
+  onStatusChange(item: any): void {
+    this.saveTaskToSessionStorage();
+
+  }
+  saveTaskToSessionStorage(): void {
+    sessionStorage.setItem('task', JSON.stringify(this.task));
+  }
+
+  loadTaskFromSessionStorage(): void {
+    const taskString = sessionStorage.getItem('task');
+    if (taskString) {
+      this.task = JSON.parse(taskString);
     }
   }
 }
