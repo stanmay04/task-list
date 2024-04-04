@@ -1,0 +1,18 @@
+.task{
+    width: 20vw;
+    height: auto;
+    /* border: 2px solid black; */
+}
+.list-group{
+    overflow: auto;
+    max-height: 52vh;
+
+}
+.card-outer{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+.card{
+    width: 47rem !important;
+}
